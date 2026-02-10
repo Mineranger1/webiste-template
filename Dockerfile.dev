@@ -1,11 +1,12 @@
 # Development Stage
 FROM golang:1.24
 
+
 # Install Air for hot reloading
-RUN go install github.com/air-verse/air@latest
+
 
 WORKDIR /app
-
+RUN go install github.com/air-verse/air@latest
 # Copy go mod and sum files
 COPY go.mod go.sum ./
 

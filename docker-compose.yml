@@ -1,14 +1,15 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
+    # Instead of building your own Dockerfile, use the pre-made Air image
+    image: cosmtrek/air
     container_name: biomix-dev
     ports:
       - "8080:8080"
     volumes:
       - .:/app
+    working_dir: /app
     environment:
       - DB_PATH=biomix.db
       - PORT=8080
-    restart: unless-stopped
+    # This command tells the Air container to run using your config
+    command: air -c .air.toml

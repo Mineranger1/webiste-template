@@ -1,0 +1,23 @@
+# Development Stage
+FROM golang:1.24
+
+# Install Air for hot reloading
+RUN go install github.com/air-verse/air@latest
+
+WORKDIR /app
+
+# Copy go mod and sum files
+COPY go.mod go.sum ./
+
+# Download all dependencies
+RUN go mod download
+
+# Set environment variables for development
+ENV DB_PATH=biomix.db
+ENV PORT=8080
+
+# Expose the port
+EXPOSE 8080
+
+# Run Air
+CMD ["air", "-c", ".air.toml"]

@@ -1,0 +1,73 @@
+{{define "content"}}
+<section class="bg-gray-50 py-16">
+    <div class="container mx-auto px-4 max-w-4xl">
+        <h1 class="text-4xl font-bold text-primary mb-8 text-center">Skontaktuj się z nami</h1>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Contact Info -->
+                <div class="space-y-8">
+                    <div>
+                        <h2 class="text-2xl font-bold text-primary mb-2">BIOMIX</h2>
+                        <p class="text-lg text-secondary font-semibold italic">Wszystko dla Twojego stada.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-green-100 p-3 rounded-full text-primary">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 font-bold uppercase tracking-wider">Telefon</p>
+                                <a href="tel:+48661017021" class="text-xl font-bold text-primary hover:text-secondary transition">+48 661 017 021</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-green-100 p-3 rounded-full text-primary">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 font-bold uppercase tracking-wider">Strona WWW</p>
+                                <a href="https://biomixpoland.pl" target="_blank" class="text-xl font-bold text-primary hover:text-secondary transition">biomixpoland.pl</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-green-100 p-3 rounded-full text-primary">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.954 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 font-bold uppercase tracking-wider">Social Media</p>
+                                <a href="https://facebook.com/biomixpoland" target="_blank" class="text-xl font-bold text-primary hover:text-secondary transition">facebook.com/biomixpoland</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8">
+                        <a href="tel:+48661017021" class="w-full bg-secondary hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition duration-300 shadow-lg text-center inline-block">
+                            Zadzwoń teraz
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Call to Action Text -->
+                <div class="flex flex-col justify-center bg-primary rounded-xl p-8 text-white relative overflow-hidden">
+                     <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-secondary rounded-full opacity-20 blur-2xl"></div>
+                     <div class="relative z-10">
+                        <h3 class="text-2xl font-bold mb-4">Masz pytania?</h3>
+                        <p class="text-lg opacity-90 mb-6 leading-relaxed">
+                            Nasi specjaliści chętnie doradzą w doborze odpowiednich produktów dla Twojego stada. Zadzwoń do nas, aby omówić szczegóły.
+                        </p>
+                        <ul class="space-y-2 mb-8 text-sm opacity-80 list-disc list-inside">
+                            <li>Indywidualne doradztwo</li>
+                            <li>Dobór dawek pokarmowych</li>
+                            <li>Rozwiązania "szyte na miarę"</li>
+                        </ul>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{{end}}

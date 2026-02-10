@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"html/template"
 
 	"biomix/internal/models"
 	_ "github.com/mattn/go-sqlite3"
@@ -20,7 +21,9 @@ func InitDB(dbPath string) error {
     CREATE TABLE IF NOT EXISTS categories (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
-        slug TEXT NOT NULL UNIQUE
+        slug TEXT NOT NULL UNIQUE,
+        description TEXT,
+        image_path TEXT
     );
 
     CREATE TABLE IF NOT EXISTS products (
@@ -29,6 +32,7 @@ func InitDB(dbPath string) error {
         description TEXT NOT NULL,
         dosage TEXT,
         data TEXT,
+        content TEXT,
         category_id INTEGER,
         FOREIGN KEY(category_id) REFERENCES categories(id)
     );
@@ -43,7 +47,7 @@ func InitDB(dbPath string) error {
 }
 
 func GetCategories() ([]models.Category, error) {
-	rows, err := DB.Query("SELECT id, name, slug FROM categories")
+	rows, err := DB.Query("SELECT id, name, slug, description, image_path FROM categories")
 	if err != nil {
 		return nil, err
 	}
@@ -52,16 +56,19 @@ func GetCategories() ([]models.Category, error) {
 	var categories []models.Category
 	for rows.Next() {
 		var c models.Category
-		if err := rows.Scan(&c.ID, &c.Name, &c.Slug); err != nil {
+		var description, imagePath sql.NullString
+		if err := rows.Scan(&c.ID, &c.Name, &c.Slug, &description, &imagePath); err != nil {
 			return nil, err
 		}
+		c.Description = description.String
+		c.ImagePath = imagePath.String
 		categories = append(categories, c)
 	}
 	return categories, nil
 }
 
 func GetProducts() ([]models.Product, error) {
-	rows, err := DB.Query("SELECT id, name, description, dosage, data, category_id FROM products")
+	rows, err := DB.Query("SELECT id, name, description, dosage, data, content, category_id FROM products")
 	if err != nil {
 		return nil, err
 	}
@@ -70,9 +77,11 @@ func GetProducts() ([]models.Product, error) {
 	var products []models.Product
 	for rows.Next() {
 		var p models.Product
-		if err := rows.Scan(&p.ID, &p.Name, &p.Description, &p.Dosage, &p.Data, &p.CategoryID); err != nil {
+		var content sql.NullString
+		if err := rows.Scan(&p.ID, &p.Name, &p.Description, &p.Dosage, &p.Data, &content, &p.CategoryID); err != nil {
 			return nil, err
 		}
+		p.Content = template.HTML(content.String)
 		products = append(products, p)
 	}
 	return products, nil
@@ -80,7 +89,7 @@ func GetProducts() ([]models.Product, error) {
 
 func GetProductsByCategory(categorySlug string) ([]models.Product, error) {
 	rows, err := DB.Query(`
-        SELECT p.id, p.name, p.description, p.dosage, p.data, p.category_id
+        SELECT p.id, p.name, p.description, p.dosage, p.data, p.content, p.category_id
         FROM products p
         JOIN categories c ON p.category_id = c.id
         WHERE c.slug = ?`, categorySlug)
@@ -92,10 +101,48 @@ func GetProductsByCategory(categorySlug string) ([]models.Product, error) {
 	var products []models.Product
 	for rows.Next() {
 		var p models.Product
-		if err := rows.Scan(&p.ID, &p.Name, &p.Description, &p.Dosage, &p.Data, &p.CategoryID); err != nil {
+		var content sql.NullString
+		if err := rows.Scan(&p.ID, &p.Name, &p.Description, &p.Dosage, &p.Data, &content, &p.CategoryID); err != nil {
 			return nil, err
 		}
+		p.Content = template.HTML(content.String)
 		products = append(products, p)
 	}
 	return products, nil
+}
+
+func GetProductByID(id int) (models.Product, error) {
+	row := DB.QueryRow("SELECT id, name, description, dosage, data, content, category_id FROM products WHERE id = ?", id)
+
+	var p models.Product
+	var content sql.NullString
+	if err := row.Scan(&p.ID, &p.Name, &p.Description, &p.Dosage, &p.Data, &content, &p.CategoryID); err != nil {
+		return p, err
+	}
+	p.Content = template.HTML(content.String)
+	return p, nil
+}
+
+func GetCategoryBySlug(slug string) (models.Category, error) {
+	row := DB.QueryRow("SELECT id, name, slug, description, image_path FROM categories WHERE slug = ?", slug)
+	var c models.Category
+	var description, imagePath sql.NullString
+	if err := row.Scan(&c.ID, &c.Name, &c.Slug, &description, &imagePath); err != nil {
+		return c, err
+	}
+	c.Description = description.String
+	c.ImagePath = imagePath.String
+	return c, nil
+}
+
+func GetProductByName(name string) (models.Product, error) {
+	row := DB.QueryRow("SELECT id, name, description, dosage, data, content, category_id FROM products WHERE name = ?", name)
+
+	var p models.Product
+	var content sql.NullString
+	if err := row.Scan(&p.ID, &p.Name, &p.Description, &p.Dosage, &p.Data, &content, &p.CategoryID); err != nil {
+		return p, err
+	}
+	p.Content = template.HTML(content.String)
+	return p, nil
 }

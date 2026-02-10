@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
+	"strings"
 
 	"biomix/internal/database"
 	"biomix/internal/models"
@@ -34,6 +36,7 @@ func main() {
 	// Routes
 	http.HandleFunc("/", homeHandler)
 	http.HandleFunc("/products", productsHandler)
+	http.HandleFunc("/product/", productHandler)
 	http.HandleFunc("/about", aboutHandler)
 	http.HandleFunc("/contact", contactHandler)
 	http.HandleFunc("/sitemap.xml", sitemapHandler)
@@ -59,8 +62,6 @@ func renderPage(w http.ResponseWriter, pageFile string, data interface{}) {
 		return
 	}
 
-	// base.html defines the layout and executes "content" block (which pageFile defines)
-	// We execute "base.html" (filename as template name)
 	if err := tmpl.ExecuteTemplate(w, "base.html", data); err != nil {
 		log.Printf("Error rendering page %s: %v", pageFile, err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -68,7 +69,6 @@ func renderPage(w http.ResponseWriter, pageFile string, data interface{}) {
 }
 
 func renderPartial(w http.ResponseWriter, parentFile string, partialName string, data interface{}) {
-	// For partials defined inside a page file (e.g. "product_list" inside "products.html")
 	tmpl, err := template.ParseFiles("web/templates/" + parentFile)
 	if err != nil {
 		log.Printf("Error parsing template %s for partial %s: %v", parentFile, partialName, err)
@@ -90,37 +90,37 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	renderPage(w, "home.html", nil)
 }
 
-type ProductsPageData struct {
-	Categories      []models.Category
-	Products        []models.Product
-	CurrentCategory string
-}
-
 func productsHandler(w http.ResponseWriter, r *http.Request) {
 	categorySlug := r.URL.Query().Get("category")
 
-	var products []models.Product
-	var err error
-
 	if categorySlug != "" && categorySlug != "all" {
-		products, err = database.GetProductsByCategory(categorySlug)
-	} else {
-		products, err = database.GetProducts()
-	}
+		// Single Category View
+		category, err := database.GetCategoryBySlug(categorySlug)
+		if err != nil {
+			log.Printf("Category not found: %s", categorySlug)
+			http.NotFound(w, r)
+			return
+		}
 
-	if err != nil {
-		log.Printf("Error fetching products: %v", err)
-		http.Error(w, "Database Error", http.StatusInternalServerError)
+		products, err := database.GetProductsByCategory(categorySlug)
+		if err != nil {
+			log.Printf("Error fetching products: %v", err)
+			http.Error(w, "Database Error", http.StatusInternalServerError)
+			return
+		}
+
+		data := struct {
+			Category models.Category
+			Products []models.Product
+		}{
+			Category: category,
+			Products: products,
+		}
+		renderPage(w, "category.html", data)
 		return
 	}
 
-	// If HTMX request, render only the product list partial
-	if r.Header.Get("HX-Request") == "true" {
-		renderPartial(w, "products.html", "product_list", products)
-		return
-	}
-
-	// Otherwise render full page
+	// All Categories View (Main Products Page)
 	categories, err := database.GetCategories()
 	if err != nil {
 		log.Printf("Error fetching categories: %v", err)
@@ -128,12 +128,48 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := ProductsPageData{
-		Categories:      categories,
-		Products:        products,
-		CurrentCategory: categorySlug,
+	// Fetch featured product
+	featuredProduct, err := database.GetProductByName("SUPER FAT")
+	var featured *models.Product
+	if err == nil {
+		featured = &featuredProduct
+	} else {
+		log.Printf("Featured product not found: %v", err)
 	}
+
+	data := struct {
+		Categories      []models.Category
+		FeaturedProduct *models.Product
+	}{
+		Categories:      categories,
+		FeaturedProduct: featured,
+	}
+
 	renderPage(w, "products.html", data)
+}
+
+func productHandler(w http.ResponseWriter, r *http.Request) {
+	// Extract ID from path /product/{id}
+	pathParts := strings.Split(r.URL.Path, "/")
+	if len(pathParts) < 3 {
+		http.NotFound(w, r)
+		return
+	}
+	idStr := pathParts[2]
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+
+	product, err := database.GetProductByID(id)
+	if err != nil {
+		log.Printf("Error fetching product %d: %v", id, err)
+		http.NotFound(w, r)
+		return
+	}
+
+	renderPage(w, "product_detail.html", product)
 }
 
 func aboutHandler(w http.ResponseWriter, r *http.Request) {

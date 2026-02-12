@@ -16,6 +16,92 @@ type SeedProduct struct {
 }
 
 func Seed() error {
+	if err := seedProducts(); err != nil {
+		return err
+	}
+	return seedEmployees()
+}
+
+func seedEmployees() error {
+	var count int
+	err := DB.QueryRow("SELECT COUNT(*) FROM employees").Scan(&count)
+	if err != nil {
+		return err
+	}
+	if count > 0 {
+		return nil
+	}
+
+	employees := []struct {
+		Name      string
+		Position  string
+		Phone     string
+		Email     string
+		ImagePath string
+	}{
+		{
+			Name:      "Wojciech Szwarc",
+			Position:  "Prezes // Doradca Żywieniowy",
+			Phone:     "+48 603 789 661",
+			Email:     "wojciech.szwarc@biomixpoland.pl",
+			ImagePath: "/static/images/wojciech_szwarc.webp",
+		},
+		{
+			Name:      "Adrian Adamczak",
+			Position:  "Dyrektor Handlowy ds. Bydła // Doradca Żywieniowy",
+			Phone:     "+48 787 589 927",
+			Email:     "adrian.adamczak@biomixpoland.pl",
+			ImagePath: "/static/images/adrian_adamczak",
+		},
+		{
+			Name:      "Łukasz Zamojdzin",
+			Position:  "Specjalista ds. żywienia",
+			Phone:     "+48 884 259 025",
+			Email:     "lukasz.zamojdzin@biomixpoland.pl",
+			ImagePath: "/static/images/lukasz_zamojdzin",
+		},
+
+		{
+			Name:      "Jarosław Długołęcki",
+			Position:  "Specjalista ds. żywienia",
+			Phone:     "+48 609 095 318",
+			Email:     "jaroslaw.dlugolecki@biomixpoland.pl",
+			ImagePath: "/static/images/jaroslaw_dlugolecki",
+		},
+		{
+			Name:      "Ewelina Nowicka",
+			Position:  "Specjalista ds. żywienia",
+			Phone:     "+48 665 003 160",
+			Email:     "ewelina.nowicka@biomixpoland.pl",
+			ImagePath: "/static/images/jaroslaw_dlugolecki",
+		},
+		{
+			Name:      "Sandra Hemerling",
+			Position:  "Kierownik Zakładu",
+			Phone:     "+48 661 017 021",
+			Email:     "sandra.hemerling@biomixpoland.pl",
+			ImagePath: "/static/images/jaroslaw_dlugolecki",
+		},
+		{
+			Name:      "Mirosława Kamińska",
+			Position:  "Specjalista ds. obsługi klienta i jakości",
+			Phone:     "+48 661 026 133",
+			Email:     "miroslawa.kaminska@biomixpoland.pl",
+			ImagePath: "/static/images/jaroslaw_dlugolecki",
+		},
+	}
+
+	for _, e := range employees {
+		_, err := DB.Exec("INSERT INTO employees (name, position, phone, email, image_path) VALUES (?, ?, ?, ?, ?)",
+			e.Name, e.Position, e.Phone, e.Email, e.ImagePath)
+		if err != nil {
+			return fmt.Errorf("failed to insert employee %s: %w", e.Name, err)
+		}
+	}
+	return nil
+}
+
+func seedProducts() error {
 	// Check if data exists
 	var count int
 	err := DB.QueryRow("SELECT COUNT(*) FROM products").Scan(&count)

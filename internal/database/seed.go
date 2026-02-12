@@ -12,6 +12,7 @@ type SeedProduct struct {
 	Data        string
 	Category    string
 	Content     string
+	ImagePath   string
 }
 
 func Seed() error {
@@ -240,6 +241,7 @@ func Seed() error {
 			Content:     superFatContent,
 			Data:        "Energia 27 MJ/kg / Tłuszcz 50%",
 			Dosage:      "300-750g / dzień",
+			ImagePath:   "/static/images/specjalne.jpg",
 		},
 
 		// --- PREMIXY (Reszta) ---
@@ -390,8 +392,8 @@ func Seed() error {
 			content = fmt.Sprintf("<p>%s</p>", p.Description)
 		}
 
-		_, err := DB.Exec(`INSERT INTO products (name, description, dosage, data, content, category_id) VALUES (?, ?, ?, ?, ?, ?)`,
-			p.Name, p.Description, p.Dosage, p.Data, content, catID)
+		_, err := DB.Exec(`INSERT INTO products (name, description, dosage, data, content, image_path, category_id) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+			p.Name, p.Description, p.Dosage, p.Data, content, p.ImagePath, catID)
 		if err != nil {
 			log.Printf("Failed to insert product %s: %v", p.Name, err)
 		}

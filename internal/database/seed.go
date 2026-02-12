@@ -38,25 +38,25 @@ func Seed() error {
 			Name:        "Premixy",
 			Slug:        "premixy",
 			Description: "Szeroka gama mieszanek mineralno-witaminowych dla bydła w każdym wieku.",
-			ImagePath:   "/static/images/premixy.jpg",
+			ImagePath:   "/static/images/premixy.webp",
 		},
 		{
 			Name:        "Preparaty mlekozastępcze",
 			Slug:        "preparaty-mlekozastepcze",
 			Description: "Wysokiej jakości preparaty dla cieląt zapewniające zdrowy start.",
-			ImagePath:   "/static/images/mlekozastepcze.jpg",
+			ImagePath:   "/static/images/mlekozastepcze.webp",
 		},
 		{
 			Name:        "Pasze",
 			Slug:        "pasze",
 			Description: "Pełnoporcjowe i uzupełniające mieszanki paszowe.",
-			ImagePath:   "/static/images/pasze.jpg",
+			ImagePath:   "/static/images/pasze.webp",
 		},
 		{
 			Name:        "Specjalne",
 			Slug:        "specjalne",
 			Description: "Produkty specjalistyczne do zadań specjalnych, higieny i suplementacji.",
-			ImagePath:   "/static/images/specjalne.jpg",
+			ImagePath:   "/static/images/specjalne.webp",
 		},
 	}
 

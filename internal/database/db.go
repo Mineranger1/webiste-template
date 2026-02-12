@@ -37,6 +37,15 @@ func InitDB(dbPath string) error {
         category_id INTEGER,
         FOREIGN KEY(category_id) REFERENCES categories(id)
     );
+
+    CREATE TABLE IF NOT EXISTS employees (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        position TEXT NOT NULL,
+        phone TEXT,
+        email TEXT,
+        image_path TEXT
+    );
     `
 
 	_, err = DB.Exec(createTables)
@@ -129,6 +138,28 @@ func GetProductByID(id int) (models.Product, error) {
 	p.Content = template.HTML(content.String)
 	p.ImagePath = imagePath.String
 	return p, nil
+}
+
+func GetEmployees() ([]models.Employee, error) {
+	rows, err := DB.Query("SELECT id, name, position, phone, email, image_path FROM employees")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var employees []models.Employee
+	for rows.Next() {
+		var e models.Employee
+		var phone, email, imagePath sql.NullString
+		if err := rows.Scan(&e.ID, &e.Name, &e.Position, &phone, &email, &imagePath); err != nil {
+			return nil, err
+		}
+		e.Phone = phone.String
+		e.Email = email.String
+		e.ImagePath = imagePath.String
+		employees = append(employees, e)
+	}
+	return employees, nil
 }
 
 func GetCategoryBySlug(slug string) (models.Category, error) {

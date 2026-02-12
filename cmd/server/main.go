@@ -173,7 +173,13 @@ func productHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func aboutHandler(w http.ResponseWriter, r *http.Request) {
-	renderPage(w, "about.html", nil)
+	employees, err := database.GetEmployees()
+	if err != nil {
+		log.Printf("Error fetching employees: %v", err)
+		http.Error(w, "Database Error", http.StatusInternalServerError)
+		return
+	}
+	renderPage(w, "about.html", employees)
 }
 
 func contactHandler(w http.ResponseWriter, r *http.Request) {

@@ -29,32 +29,35 @@
         <div class="text-center">
              <h2 class="text-3xl font-bold text-primary mb-12">Nasz Zespół</h2>
              <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                 <!-- Placeholder Team Member 1 -->
-                 <div class="bg-gray-50 p-6 rounded-xl shadow-md">
-                     <div class="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-4 overflow-hidden">
-                         <svg class="w-full h-full text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                 {{range .}}
+                 <div class="bg-gray-50 p-6 rounded-xl shadow-md flex flex-col items-center">
+                     <div class="w-full mb-6 overflow-hidden rounded-lg shadow-sm">
+                         {{if .ImagePath}}
+                         <img src="{{.ImagePath}}" alt="{{.Name}}" class="w-full h-auto object-cover">
+                         {{else}}
+                         <div class="w-full bg-gray-200 aspect-[719/1080] flex items-center justify-center text-gray-400">
+                            Brak zdjęcia
+                         </div>
+                         {{end}}
                      </div>
-                     <h3 class="text-xl font-bold text-primary">Ekspert Żywieniowy</h3>
-                     <p class="text-secondary font-semibold">Doradztwo</p>
-                 </div>
+                     <h3 class="text-xl font-bold text-primary mb-1">{{.Name}}</h3>
+                     <p class="text-secondary font-semibold mb-4">{{.Position}}</p>
 
-                  <!-- Placeholder Team Member 2 -->
-                 <div class="bg-gray-50 p-6 rounded-xl shadow-md">
-                     <div class="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-4 overflow-hidden">
-                         <svg class="w-full h-full text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                     </div>
-                     <h3 class="text-xl font-bold text-primary">Specjalista ds. Jakości</h3>
-                     <p class="text-secondary font-semibold">Produkcja</p>
-                 </div>
+                     <div class="space-y-2 w-full">
+                         {{if .Phone}}
+                         <a href="tel:{{.Phone}}" class="block w-full py-2 px-4 bg-white border border-gray-200 rounded-lg text-gray-700 hover:bg-primary hover:text-white transition-colors duration-300">
+                            {{.Phone}}
+                         </a>
+                         {{end}}
 
-                  <!-- Placeholder Team Member 3 -->
-                 <div class="bg-gray-50 p-6 rounded-xl shadow-md">
-                     <div class="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-4 overflow-hidden">
-                         <svg class="w-full h-full text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                         {{if .Email}}
+                         <a href="mailto:{{.Email}}" class="block w-full py-2 px-4 bg-white border border-gray-200 rounded-lg text-gray-700 hover:bg-primary hover:text-white transition-colors duration-300 break-words text-sm">
+                            {{.Email}}
+                         </a>
+                         {{end}}
                      </div>
-                     <h3 class="text-xl font-bold text-primary">Obsługa Klienta</h3>
-                     <p class="text-secondary font-semibold">Sprzedaż</p>
                  </div>
+                 {{end}}
              </div>
         </div>
     </div>

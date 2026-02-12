@@ -16,6 +16,63 @@ type SeedProduct struct {
 }
 
 func Seed() error {
+	if err := seedProducts(); err != nil {
+		return err
+	}
+	return seedEmployees()
+}
+
+func seedEmployees() error {
+	var count int
+	err := DB.QueryRow("SELECT COUNT(*) FROM employees").Scan(&count)
+	if err != nil {
+		return err
+	}
+	if count > 0 {
+		return nil
+	}
+
+	employees := []struct {
+		Name      string
+		Position  string
+		Phone     string
+		Email     string
+		ImagePath string
+	}{
+		{
+			Name:      "Jan Kowalski",
+			Position:  "Dyrektor Handlowy",
+			Phone:     "+48 123 456 789",
+			Email:     "jan.kowalski@biomix.pl",
+			ImagePath: "https://placehold.co/719x1080",
+		},
+		{
+			Name:      "Anna Nowak",
+			Position:  "Specjalista ds. Żywienia",
+			Phone:     "+48 987 654 321",
+			Email:     "anna.nowak@biomix.pl",
+			ImagePath: "https://placehold.co/719x1080",
+		},
+		{
+			Name:      "Piotr Wiśniewski",
+			Position:  "Logistyk",
+			Phone:     "+48 555 666 777",
+			Email:     "piotr.wisniewski@biomix.pl",
+			ImagePath: "https://placehold.co/719x1080",
+		},
+	}
+
+	for _, e := range employees {
+		_, err := DB.Exec("INSERT INTO employees (name, position, phone, email, image_path) VALUES (?, ?, ?, ?, ?)",
+			e.Name, e.Position, e.Phone, e.Email, e.ImagePath)
+		if err != nil {
+			return fmt.Errorf("failed to insert employee %s: %w", e.Name, err)
+		}
+	}
+	return nil
+}
+
+func seedProducts() error {
 	// Check if data exists
 	var count int
 	err := DB.QueryRow("SELECT COUNT(*) FROM products").Scan(&count)

@@ -17,5 +17,6 @@ type Product struct {
     Dosage      string
     Data        string        // Additional data like protein/fat/energy (stored as text/markdown for now)
     Content     template.HTML // Full HTML content for the product page
+    ImagePath   string
     CategoryID  int
 }

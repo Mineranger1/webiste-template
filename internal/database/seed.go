@@ -51,14 +51,14 @@ func seedEmployees() error {
 			Position:  "Dyrektor Handlowy ds. Bydła // Doradca Żywieniowy",
 			Phone:     "+48 787 589 927",
 			Email:     "adrian.adamczak@biomixpoland.pl",
-			ImagePath: "/static/images/adrian_adamczak",
+			ImagePath: "/static/images/adrian_adamczak.webp",
 		},
 		{
 			Name:      "Łukasz Zamojdzin",
 			Position:  "Specjalista ds. żywienia",
 			Phone:     "+48 884 259 025",
 			Email:     "lukasz.zamojdzin@biomixpoland.pl",
-			ImagePath: "/static/images/lukasz_zamojdzin",
+			ImagePath: "/static/images/lukasz_zamojdzin.webp",
 		},
 
 		{
@@ -66,28 +66,28 @@ func seedEmployees() error {
 			Position:  "Specjalista ds. żywienia",
 			Phone:     "+48 609 095 318",
 			Email:     "jaroslaw.dlugolecki@biomixpoland.pl",
-			ImagePath: "/static/images/jaroslaw_dlugolecki",
+			ImagePath: "/static/images/jaroslaw_dlugolecki.webp",
 		},
 		{
 			Name:      "Ewelina Nowicka",
 			Position:  "Specjalista ds. żywienia",
 			Phone:     "+48 665 003 160",
 			Email:     "ewelina.nowicka@biomixpoland.pl",
-			ImagePath: "/static/images/jaroslaw_dlugolecki",
+			ImagePath: "/static/images/wojciech_szwarc.webp",
 		},
 		{
 			Name:      "Sandra Hemerling",
 			Position:  "Kierownik Zakładu",
 			Phone:     "+48 661 017 021",
 			Email:     "sandra.hemerling@biomixpoland.pl",
-			ImagePath: "/static/images/jaroslaw_dlugolecki",
+			ImagePath: "/static/images/wojciech_szwarc.webp",
 		},
 		{
 			Name:      "Mirosława Kamińska",
 			Position:  "Specjalista ds. obsługi klienta i jakości",
 			Phone:     "+48 661 026 133",
 			Email:     "miroslawa.kaminska@biomixpoland.pl",
-			ImagePath: "/static/images/jaroslaw_dlugolecki",
+			ImagePath: "/static/images/wojciech_szwarc.webp",
 		},
 	}
 

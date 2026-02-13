@@ -21,9 +21,9 @@
   &quot;isMigrated&quot;: true
 }</component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 2
+  &quot;associatedIndex&quot;: 3
 }</component>
-  <component name="ProjectId" id="39UVCB4QHjl6amyjtAwsvXrVv6K" />
+  <component name="ProjectId" id="39aFJWuxTqdb4U5I5P0NmeDXLgt" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -49,24 +49,9 @@
     "nodejs_package_manager_path": "npm"
   }
 }</component>
-  <component name="RunManager" selected="Docker.docker-compose.yml: Compose Deployment">
-    <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
-      <deployment type="dockerfile">
-        <settings>
-          <option name="containerName" value="biomix" />
-          <option name="sourceFilePath" value="Dockerfile" />
-        </settings>
-      </deployment>
-      <method v="2" />
-    </configuration>
+  <component name="RunManager">
     <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
       <deployment type="docker-compose.yml">
-        <settings />
-      </deployment>
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
-      <deployment type="dockerfile">
         <settings />
       </deployment>
       <method v="2" />
@@ -82,7 +67,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
-        <item itemvalue="Docker.Dockerfile" />
       </list>
     </recent_temporary>
   </component>
@@ -96,11 +80,11 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c8df8d1b-15f4-4cc8-b5ab-c89e3277b4cf" name="Changes" comment="" />
-      <created>1770750506012</created>
+      <changelist id="03c345ca-e460-4678-bf24-16673685690c" name="Changes" comment="" />
+      <created>1770926207599</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1770750506012</updated>
+      <updated>1770926207599</updated>
     </task>
     <servers />
   </component>

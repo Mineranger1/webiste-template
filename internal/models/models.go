@@ -20,3 +20,12 @@ type Product struct {
     ImagePath   string
     CategoryID  int
 }
+
+type Employee struct {
+    ID        int
+    Name      string // Full name (First Name + Last Name)
+    Position  string
+    Phone     string
+    Email     string
+    ImagePath string
+}

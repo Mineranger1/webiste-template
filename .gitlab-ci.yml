@@ -23,7 +23,7 @@ variables:
 
 workflow:
   rules:
-    - if: $CI_COMMIT_BRANCH == "main" || ($CI_PIPELINE_SOURCE == 'merge_request_event' && ( $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main" ))
+    - if: $CI_COMMIT_BRANCH == "master" || ($CI_PIPELINE_SOURCE == 'merge_request_event' && ( $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master" ))
 
 stages:
   - build
@@ -36,7 +36,7 @@ build:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
     entrypoint: [ "" ]
   only:
-    - main
+    - master
   script:
     - mkdir -p /kaniko/.docker
     - echo "Build for $NODE_ENV environment"
@@ -63,7 +63,7 @@ docker:push:
     GIT_STRATEGY: none
     GIT_SUBMODULE_STRATEGY: none
   only:
-    - main
+    - master
   image:
     name: gcr.io/go-containerregistry/crane:debug
     entrypoint: [""]
@@ -74,7 +74,7 @@ docker:push:
 deploy:
   image: alpine:latest
   only:
-    - main
+    - master
   stage: deploy
   script:
     - apk update && apk add openssh-client

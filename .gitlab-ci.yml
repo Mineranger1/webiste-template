@@ -1,0 +1,93 @@
+image: docker:stable
+
+variables:
+  # DOCKER_HOST: tcp://docker:2375
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+  IMAGE_NAME: 'web-biomix'
+  IMAGE_NAME_DEPS: 'web-biomix'
+  TAG_LATEST: $GL_REGISTRY_URI/$IMAGE_NAME-$CI_COMMIT_REF_NAME:latest
+  TAG_LATEST_DEPS: $GL_REGISTRY_URI/$IMAGE_NAME_DEPS-$CI_COMMIT_REF_NAME:latest
+  TAG_COMMIT: $GL_REGISTRY_URI/$IMAGE_NAME-$CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
+  NODE_ENV: ''
+  PORT: 80
+  PORT_EXPOSE: ''
+  DOCKER_CONFIG: "/kaniko/.docker"
+
+#services:
+#  - docker:stable-dind
+
+.runners:
+  tags:
+#    - docker
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main" || ($CI_PIPELINE_SOURCE == 'merge_request_event' && ( $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main" ))
+
+stages:
+  - build
+  - push
+  - deploy
+
+build:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [ "" ]
+  only:
+    - main
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "Build for $NODE_ENV environment"
+    - echo IMAGE=$TAG_COMMIT
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination $TAG_COMMIT
+      --build-arg NODE_ENV=$NODE_ENV
+      --build-arg PORT=$PORT
+      --log-timestamp=true
+      --single-snapshot
+      --no-push
+      --tarPath image.tar
+  artifacts:
+    paths:
+      - image.tar
+    expire_in: 1 hour
+    when: on_success
+
+docker:push:
+  stage: push
+  variables:
+    GIT_STRATEGY: none
+    GIT_SUBMODULE_STRATEGY: none
+  only:
+    - main
+  image:
+    name: gcr.io/go-containerregistry/crane:debug
+    entrypoint: [""]
+  script:
+    - crane auth login -u $GL_BUILD_TOKEN -p $GL_BUILD_TOKEN $GL_REGISTRY
+    - crane push image.tar $TAG_COMMIT
+
+deploy:
+  image: alpine:latest
+  only:
+    - main
+  stage: deploy
+  script:
+    - apk update && apk add openssh-client
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo -n "$SERVER_SSH_KEY" | base64 -d > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - eval $(ssh-agent -s)
+    - ssh-add ~/.ssh/id_rsa
+    - ssh -p $SERVER_PORT -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker login -u $GL_BUILD_TOKEN -p $GL_BUILD_TOKEN $GL_REGISTRY"
+    - ssh -p $SERVER_PORT -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull $TAG_COMMIT"
+    - ssh -p $SERVER_PORT -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f $IMAGE_NAME-$CI_COMMIT_REF_NAME || true"
+    - ssh -p $SERVER_PORT -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p $PORT_EXPOSE:$PORT --name $IMAGE_NAME-$CI_COMMIT_REF_NAME $TAG_COMMIT"
+  variables:
+    GIT_STRATEGY: none
+    GIT_SUBMODULE_STRATEGY: none

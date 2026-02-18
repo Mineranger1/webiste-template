@@ -68,27 +68,27 @@ func seedEmployees() error {
 			Email:     "jaroslaw.dlugolecki@biomixpoland.pl",
 			ImagePath: "/static/images/jaroslaw_dlugolecki.webp",
 		},
-		{
-			Name:      "Ewelina Nowicka",
-			Position:  "Specjalista ds. żywienia",
-			Phone:     "+48 665 003 160",
-			Email:     "ewelina.nowicka@biomixpoland.pl",
-			ImagePath: "/static/images/wojciech_szwarc.webp",
-		},
-		{
-			Name:      "Sandra Hemerling",
-			Position:  "Kierownik Zakładu",
-			Phone:     "+48 661 017 021",
-			Email:     "sandra.hemerling@biomixpoland.pl",
-			ImagePath: "/static/images/wojciech_szwarc.webp",
-		},
-		{
-			Name:      "Mirosława Kamińska",
-			Position:  "Specjalista ds. obsługi klienta i jakości",
-			Phone:     "+48 661 026 133",
-			Email:     "miroslawa.kaminska@biomixpoland.pl",
-			ImagePath: "/static/images/wojciech_szwarc.webp",
-		},
+		//{
+		//	Name:      "Ewelina Nowicka",
+		//	Position:  "Specjalista ds. żywienia",
+		//	Phone:     "+48 665 003 160",
+		//	Email:     "ewelina.nowicka@biomixpoland.pl",
+		//	ImagePath: "/static/images/wojciech_szwarc.webp",
+		//},
+		//{
+		//	Name:      "Sandra Hemerling",
+		//	Position:  "Kierownik Zakładu",
+		//	Phone:     "+48 661 017 021",
+		//	Email:     "sandra.hemerling@biomixpoland.pl",
+		//	ImagePath: "/static/images/wojciech_szwarc.webp",
+		//},
+		//{
+		//	Name:      "Mirosława Kamińska",
+		//	Position:  "Specjalista ds. obsługi klienta i jakości",
+		//	Phone:     "+48 661 026 133",
+		//	Email:     "miroslawa.kaminska@biomixpoland.pl",
+		//	ImagePath: "/static/images/wojciech_szwarc.webp",
+		//},
 	}
 
 	for _, e := range employees {

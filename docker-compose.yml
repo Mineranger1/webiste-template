@@ -2,11 +2,12 @@ services:
   app:
     # Instead of building your own Dockerfile, use the pre-made Air image
     image: cosmtrek/air
-    container_name: biomix-dev
+    container_name: biomix-web
     ports:
       - "8080:8080"
     volumes:
       - .:/app
+      - /srv/data/web/biomixpoland/biomix.db:/app/biomix.db
     working_dir: /app
     environment:
       - DB_PATH=biomix.db

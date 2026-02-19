@@ -4,10 +4,10 @@ services:
     image: cosmtrek/air
     container_name: biomix-web
     ports:
-      - "8081:8080"
+      - "8080:8080"
     volumes:
       - .:/app
-      - /srv/data/web/biomixpoland/biomix.db:/app/biomix.db
+     # - /srv/data/web/biomixpoland/biomix.db:/app/biomix.db
     working_dir: /app
     environment:
       - DB_PATH=biomix.db

@@ -87,7 +87,17 @@ deploy:
     - ssh -p $SERVER_PORT -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker login -u $GL_BUILD_TOKEN -p $GL_BUILD_TOKEN $GL_REGISTRY"
     - ssh -p $SERVER_PORT -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull $TAG_COMMIT"
     - ssh -p $SERVER_PORT -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f $IMAGE_NAME-$CI_COMMIT_REF_NAME || true"
-    - ssh -p $SERVER_PORT -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p $PORT_EXPOSE:$PORT --name $IMAGE_NAME-$CI_COMMIT_REF_NAME $TAG_COMMIT"
+    - ssh -p $SERVER_PORT -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "\
+      mkdir -p /srv/data/web/biomixpoland && \
+      test -f /srv/data/web/biomixpoland/biomix.db || touch /srv/data/web/biomixpoland/biomix.db && \
+      docker run -d \
+      -p $PORT_EXPOSE:$PORT \
+      -v /srv/data/web/biomixpoland/biomix.db:/app/biomix.db \
+      -e DB_PATH=biomix.db \
+      -e PORT=8080 \
+      --name $IMAGE_NAME-$CI_COMMIT_REF_NAME \
+      $TAG_COMMIT \
+      "
   variables:
     GIT_STRATEGY: none
     GIT_SUBMODULE_STRATEGY: none

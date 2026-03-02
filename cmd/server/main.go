@@ -39,6 +39,7 @@ func main() {
 	http.HandleFunc("/product/", productHandler)
 	http.HandleFunc("/about", aboutHandler)
 	http.HandleFunc("/contact", contactHandler)
+	http.HandleFunc("/brand", brandHandler)
 	http.HandleFunc("/sitemap.xml", sitemapHandler)
 	http.HandleFunc("/robots.txt", robotsHandler)
 
@@ -186,6 +187,10 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 	renderPage(w, "contact.html", nil)
 }
 
+func brandHandler(w http.ResponseWriter, r *http.Request) {
+	renderPage(w, "brand.html", nil)
+}
+
 func robotsHandler(w http.ResponseWriter, r *http.Request) {
 	robots := `User-agent: *
 Allow: /
@@ -204,5 +209,6 @@ func sitemapHandler(w http.ResponseWriter, r *http.Request) {
    <url><loc>` + baseUrl + `/products</loc></url>
    <url><loc>` + baseUrl + `/about</loc></url>
    <url><loc>` + baseUrl + `/contact</loc></url>
+   <url><loc>` + baseUrl + `/brand</loc></url>
 </urlset>`))
 }

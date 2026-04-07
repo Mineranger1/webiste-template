@@ -9,15 +9,75 @@ import (
 	"strconv"
 	"strings"
 
-	"biomix/internal/database"
-	"biomix/internal/models"
+	"app/internal/database"
+	"app/internal/models"
 )
 
+type SiteConfig struct {
+	SiteName         string
+	CompanyEmail     string
+	CompanyPhone     string
+	CompanyAddress   string
+	CompanyKRS       string
+	CompanyNIP       string
+	CompanyREGON     string
+	CompanyCapital   string
+	BaseURL          string
+	PrimaryColor     string
+	SecondaryColor   string
+}
+
+var globalSiteConfig SiteConfig
+
+func loadEnv() {
+	content, err := os.ReadFile(".env")
+	if err != nil {
+		return
+	}
+	lines := strings.Split(string(content), "\n")
+	for _, line := range lines {
+		line = strings.TrimSpace(line)
+		if line == "" || strings.HasPrefix(line, "#") {
+			continue
+		}
+		parts := strings.SplitN(line, "=", 2)
+		if len(parts) == 2 {
+			os.Setenv(strings.TrimSpace(parts[0]), strings.TrimSpace(parts[1]))
+		}
+	}
+}
+
+func initConfig() {
+	globalSiteConfig = SiteConfig{
+		SiteName:         os.Getenv("SITE_NAME"),
+		CompanyEmail:     os.Getenv("COMPANY_EMAIL"),
+		CompanyPhone:     os.Getenv("COMPANY_PHONE"),
+		CompanyAddress:   os.Getenv("COMPANY_ADDRESS"),
+		CompanyKRS:       os.Getenv("COMPANY_KRS"),
+		CompanyNIP:       os.Getenv("COMPANY_NIP"),
+		CompanyREGON:     os.Getenv("COMPANY_REGON"),
+		CompanyCapital:   os.Getenv("COMPANY_CAPITAL"),
+		BaseURL:          os.Getenv("BASE_URL"),
+		PrimaryColor:     os.Getenv("PRIMARY_COLOR"),
+		SecondaryColor:   os.Getenv("SECONDARY_COLOR"),
+	}
+	if globalSiteConfig.SiteName == "" { globalSiteConfig.SiteName = "My Template App" }
+	if globalSiteConfig.CompanyEmail == "" { globalSiteConfig.CompanyEmail = "info@example.com" }
+	if globalSiteConfig.CompanyPhone == "" { globalSiteConfig.CompanyPhone = "+1 234 567 890" }
+	if globalSiteConfig.CompanyAddress == "" { globalSiteConfig.CompanyAddress = "123 Main St, City, Country" }
+	if globalSiteConfig.BaseURL == "" { globalSiteConfig.BaseURL = "http://localhost:8080" }
+	if globalSiteConfig.PrimaryColor == "" { globalSiteConfig.PrimaryColor = "#201a3e" }
+	if globalSiteConfig.SecondaryColor == "" { globalSiteConfig.SecondaryColor = "#2aa638" }
+}
+
 func main() {
+	loadEnv()
+	initConfig()
+
 	// Initialize Database
 	dbPath := os.Getenv("DB_PATH")
 	if dbPath == "" {
-		dbPath = "biomix.db"
+		dbPath = "app.db"
 	}
 
 	if err := database.InitDB(dbPath); err != nil {
@@ -56,7 +116,10 @@ func main() {
 
 func renderPage(w http.ResponseWriter, pageFile string, data interface{}) {
 	// Parse base layout + specific page
-	tmpl, err := template.ParseFiles("web/templates/base.html", "web/templates/"+pageFile)
+	tmpl := template.New("base.html").Funcs(template.FuncMap{
+		"config": func() SiteConfig { return globalSiteConfig },
+	})
+	tmpl, err := tmpl.ParseFiles("web/templates/base.html", "web/templates/"+pageFile)
 	if err != nil {
 		log.Printf("Error parsing templates for %s: %v", pageFile, err)
 		http.Error(w, "Template Error", http.StatusInternalServerError)
@@ -70,7 +133,10 @@ func renderPage(w http.ResponseWriter, pageFile string, data interface{}) {
 }
 
 func renderPartial(w http.ResponseWriter, parentFile string, partialName string, data interface{}) {
-	tmpl, err := template.ParseFiles("web/templates/" + parentFile)
+	tmpl := template.New(parentFile).Funcs(template.FuncMap{
+		"config": func() SiteConfig { return globalSiteConfig },
+	})
+	tmpl, err := tmpl.ParseFiles("web/templates/" + parentFile)
 	if err != nil {
 		log.Printf("Error parsing template %s for partial %s: %v", parentFile, partialName, err)
 		http.Error(w, "Template Error", http.StatusInternalServerError)
@@ -192,15 +258,13 @@ func brandHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func robotsHandler(w http.ResponseWriter, r *http.Request) {
-	robots := `User-agent: *
-Allow: /
-Sitemap: https://biomixpoland.pl/sitemap.xml`
+	robots := fmt.Sprintf("User-agent: *\nAllow: /\nSitemap: %s/sitemap.xml", globalSiteConfig.BaseURL)
 	w.Header().Set("Content-Type", "text/plain")
 	w.Write([]byte(robots))
 }
 
 func sitemapHandler(w http.ResponseWriter, r *http.Request) {
-	baseUrl := "https://biomixpoland.pl"
+	baseUrl := globalSiteConfig.BaseURL
 
 	w.Header().Set("Content-Type", "application/xml")
 	w.Write([]byte(`<?xml version="1.0" encoding="UTF-8"?>

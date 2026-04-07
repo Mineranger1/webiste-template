@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"html/template"
 
-	"biomix/internal/models"
+	"app/internal/models"
 	_ "github.com/mattn/go-sqlite3"
 )
 

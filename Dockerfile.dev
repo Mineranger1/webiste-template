@@ -14,7 +14,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 # Set environment variables for development
-ENV DB_PATH=biomix.db
+ENV DB_PATH=app.db
 ENV PORT=8080
 
 # Expose the port

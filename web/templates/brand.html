@@ -11,15 +11,15 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-12">
                 <div class="flex justify-center bg-gray-100 p-8 rounded-xl border border-gray-200">
-                    <img src="/static/images/biomixlogo.webp" alt="BIOMIX Logo" class="max-h-24 w-auto">
+                    <img src="/static/images/logo.png" alt="{{ (config).SiteName }} Logo" class="max-h-24 w-auto">
                 </div>
                 <div>
                     <h3 class="text-xl font-bold text-primary mb-4">Kod HTML (Strona internetowa)</h3>
                     <p class="text-sm text-gray-500 mb-4">Skopiuj poniższy kod, aby osadzić logo na swojej stronie internetowej z linkiem do naszej strony.</p>
                     <div class="relative">
                         <textarea id="htmlCode" class="w-full bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-secondary focus:border-secondary block p-2.5 h-32 resize-none" readonly>
-&lt;a href="https://biomixpoland.pl" target="_blank" rel="noopener noreferrer"&gt;
-    &lt;img src="https://biomixpoland.pl/static/images/biomixlogo.webp" alt="BIOMIX" style="height: 60px; width: auto;"&gt;
+&lt;a href="{{ (config).BaseURL }}" target="_blank" rel="noopener noreferrer"&gt;
+    &lt;img src="{{ (config).BaseURL }}/static/images/logo.png" alt="{{ (config).SiteName }}" style="height: 60px; width: auto;"&gt;
 &lt;/a&gt;</textarea>
                         <button onclick="copyToClipboard('htmlCode', 'htmlBtn')" id="htmlBtn" class="absolute top-2 right-2 bg-primary hover:bg-secondary text-white text-xs font-bold py-1 px-3 rounded transition duration-300">
                             Kopiuj
@@ -30,15 +30,15 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                  <div class="flex justify-center bg-primary p-8 rounded-xl border border-gray-200">
-                    <img src="/static/images/biomixlogo.webp" alt="BIOMIX Logo" class="max-h-24 w-auto brightness-0 invert">
+                    <img src="/static/images/logo.png" alt="{{ (config).SiteName }} Logo" class="max-h-24 w-auto brightness-0 invert">
                 </div>
                 <div>
                     <h3 class="text-xl font-bold text-primary mb-4">Kod HTML (Stopka Email)</h3>
                     <p class="text-sm text-gray-500 mb-4">Skopiuj ten kod, aby wstawić nasze logo do swojej stopki mailowej.</p>
                     <div class="relative">
                         <textarea id="emailCode" class="w-full bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-secondary focus:border-secondary block p-2.5 h-32 resize-none" readonly>
-&lt;a href="https://biomixpoland.pl"&gt;
-    &lt;img src="https://biomixpoland.pl/static/images/biomixlogo.webp" alt="BIOMIX" height="40" style="display: block; border: 0;"&gt;
+&lt;a href="{{ (config).BaseURL }}"&gt;
+    &lt;img src="{{ (config).BaseURL }}/static/images/logo.png" alt="{{ (config).SiteName }}" height="40" style="display: block; border: 0;"&gt;
 &lt;/a&gt;</textarea>
                         <button onclick="copyToClipboard('emailCode', 'emailBtn')" id="emailBtn" class="absolute top-2 right-2 bg-primary hover:bg-secondary text-white text-xs font-bold py-1 px-3 rounded transition duration-300">
                             Kopiuj
@@ -50,7 +50,7 @@
             <div class="mt-12">
                 <h3 class="text-xl font-bold text-primary mb-4">Bezpośredni Link do Obrazu</h3>
                 <div class="flex items-center space-x-4">
-                    <input type="text" id="directLink" value="https://biomixpoland.pl/static/images/biomixlogo.webp" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5" readonly>
+                    <input type="text" id="directLink" value="{{ (config).BaseURL }}/static/images/logo.png" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5" readonly>
                     <button onclick="copyToClipboard('directLink', 'linkBtn')" id="linkBtn" class="bg-primary hover:bg-secondary text-white font-bold py-2.5 px-6 rounded-lg transition duration-300 whitespace-nowrap">
                         Kopiuj Link
                     </button>

@@ -2,3 +2,4 @@
 .idea/*
 biomix.db
 /tmp
+.env

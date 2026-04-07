@@ -2,7 +2,7 @@ services:
   app:
     # Instead of building your own Dockerfile, use the pre-made Air image
     image: cosmtrek/air
-    container_name: biomix-web
+    container_name: app-web
     ports:
       - "8080:8080"
     volumes:
@@ -10,7 +10,7 @@ services:
      # - /srv/data/web/biomixpoland/biomix.db:/app/biomix.db
     working_dir: /app
     environment:
-      - DB_PATH=biomix.db
+      - DB_PATH=app.db
       - PORT=8080
     # This command tells the Air container to run using your config
     command: air -c .air.toml

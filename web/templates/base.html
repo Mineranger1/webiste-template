@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{block "title" .}}BIOMIX - Wszystko dla Twojego stada{{end}}</title>
+    <title>{{block "title" .}}{{ (config).SiteName }}{{end}}</title>
     <meta name="description" content="Profesjonalne żywienie zwierząt hodowlanych. Premixy, pasze, preparaty mlekozastępcze.">
 
     <!-- Tailwind CSS -->
@@ -13,8 +13,8 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#201a3e',
-                        secondary: '#2aa638',
+                        primary: '{{ (config).PrimaryColor }}',
+                        secondary: '{{ (config).SecondaryColor }}',
                         lightgreen: '#acd1ab',
                     },
                     fontFamily: {
@@ -47,7 +47,7 @@
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <!-- Logo -->
             <a href="/" class="flex items-center">
-                <img src="/static/images/biomixlogo.webp" alt="BIOMIX" class="h-12 w-auto" width="1567" height="695">
+                <img src="/static/images/logo.png" alt="{{ (config).SiteName }}" class="h-12 w-auto">
             </a>
 
             <!-- Navigation (Desktop) -->
@@ -60,8 +60,8 @@
 
             <!-- CTA Button -->
             <div class="hidden md:block">
-                <a href="tel:+48661017021" class="bg-primary hover:bg-secondary text-white font-bold py-2 px-6 rounded-full transition duration-300">
-                    +48 661 017 021
+                <a href="tel:{{ (config).CompanyPhone }}" class="bg-primary hover:bg-secondary text-white font-bold py-2 px-6 rounded-full transition duration-300">
+                    {{ (config).CompanyPhone }}
                 </a>
             </div>
 
@@ -80,7 +80,7 @@
             <a href="/#partners" class="block py-2 text-primary font-semibold">Nasi Partnerzy</a>
             <a href="/about" class="block py-2 text-primary font-semibold">O nas</a>
             <a href="/contact" class="block py-2 text-primary font-semibold">Kontakt</a>
-            <a href="tel:+48661017021" class="block py-2 mt-2 text-secondary font-bold">Zadzwoń: +48 661 017 021</a>
+            <a href="tel:{{ (config).CompanyPhone }}" class="block py-2 mt-2 text-secondary font-bold">Zadzwoń: {{ (config).CompanyPhone }}</a>
         </div>
     </header>
 
@@ -94,11 +94,11 @@
         <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Company Info -->
             <div>
-                <h3 class="text-xl font-bold mb-4 text-secondary">BIOMIX</h3>
+                <h3 class="text-xl font-bold mb-4 text-secondary">{{ (config).SiteName }}</h3>
                 <p class="text-gray-300 mb-4">Wszystko dla Twojego stada.</p>
                 <div class="flex space-x-4">
-                    <a href="https://facebook.com/biomixpoland" target="_blank" class="text-white hover:text-secondary transition">Facebook</a>
-                    <a href="https://tiktok.com/@biomixowepole" target="_blank" class="text-white hover:text-secondary transition">TikTok</a>
+                    <a href="#" target="_blank" class="text-white hover:text-secondary transition">Facebook</a>
+                    <a href="#" target="_blank" class="text-white hover:text-secondary transition">TikTok</a>
                 </div>
             </div>
 
@@ -117,18 +117,18 @@
             <!-- Contact -->
             <div>
                 <h3 class="text-xl font-bold mb-4">Kontakt</h3>
-                <p class="text-gray-300">Tel: <a href="tel:+48661017021" class="text-white hover:text-secondary font-bold">+48 661 017 021</a></p>
-                <p class="text-gray-300">Email: <a href="mailto:biuro@biomixpoland.pl" class="text-white hover:text-secondary">biuro@biomixpoland.pl</a></p>
-                <p class="text-gray-300">biomixpoland.pl</p>
+                <p class="text-gray-300">Tel: <a href="tel:{{ (config).CompanyPhone }}" class="text-white hover:text-secondary font-bold">{{ (config).CompanyPhone }}</a></p>
+                <p class="text-gray-300">Email: <a href="mailto:{{ (config).CompanyEmail }}" class="text-white hover:text-secondary">{{ (config).CompanyEmail }}</a></p>
+                <p class="text-gray-300">{{ (config).BaseURL }}</p>
             </div>
         </div>
         <div class="container mx-auto px-4 mt-8 border-t border-gray-700 pt-6 text-center text-sm text-gray-400">
-            &copy; {{block "year" .}}2026{{end}} BIOMIX. Wszelkie prawa zastrzeżone.
+            &copy; {{block "year" .}}2026{{end}} {{ (config).SiteName }}. Wszelkie prawa zastrzeżone.
         </div>
     </footer>
 
     <!-- Floating Contact Button (Mobile) -->
-    <a href="tel:+48661017021" class="md:hidden fixed bottom-6 right-6 bg-secondary text-white p-4 rounded-full shadow-lg z-50 hover:bg-green-600 transition animate-bounce">
+    <a href="tel:{{ (config).CompanyPhone }}" class="md:hidden fixed bottom-6 right-6 bg-secondary text-white p-4 rounded-full shadow-lg z-50 hover:bg-green-600 transition animate-bounce">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
         </svg>

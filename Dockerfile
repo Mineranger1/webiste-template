@@ -34,7 +34,7 @@ COPY --from=builder /app/main .
 COPY --from=builder /app/web ./web
 
 # Set environment variables
-ENV DB_PATH=biomix.db
+ENV DB_PATH=app.db
 ENV PORT=8080
 
 # Expose the port

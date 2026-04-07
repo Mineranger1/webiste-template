@@ -8,7 +8,7 @@
                 <!-- Contact Info -->
                 <div class="space-y-8">
                     <div>
-                        <h2 class="text-2xl font-bold text-primary mb-2">BIOMIX</h2>
+                        <h2 class="text-2xl font-bold text-primary mb-2">{{ (config).SiteName }}</h2>
                         <p class="text-lg text-secondary font-semibold italic">Wszystko dla Twojego stada.</p>
                     </div>
 
@@ -19,7 +19,7 @@
                             </div>
                             <div>
                                 <p class="text-sm text-gray-500 font-bold uppercase tracking-wider">Telefon</p>
-                                <a href="tel:+48661017021" class="text-xl font-bold text-primary hover:text-secondary transition">+48 661 017 021</a>
+                                <a href="tel:{{ (config).CompanyPhone }}" class="text-xl font-bold text-primary hover:text-secondary transition">{{ (config).CompanyPhone }}</a>
                             </div>
                         </div>
 
@@ -31,7 +31,7 @@
                             </div>
                             <div>
                                 <p class="text-sm text-gray-500 font-bold uppercase tracking-wider">TikTok</p>
-                                <a href="https://tiktok.com/@biomixowepole" target="_blank" class="text-xl font-bold text-primary hover:text-secondary transition">tiktok.com/@biomixpoland</a>
+                                <a href="#" target="_blank" class="text-xl font-bold text-primary hover:text-secondary transition">tiktok.com/@company</a>
                             </div>
                         </div>
 
@@ -41,13 +41,13 @@
                             </div>
                             <div>
                                 <p class="text-sm text-gray-500 font-bold uppercase tracking-wider">Social Media</p>
-                                <a href="https://facebook.com/biomixpoland" target="_blank" class="text-xl font-bold text-primary hover:text-secondary transition">facebook.com/biomixpoland</a>
+                                <a href="#" target="_blank" class="text-xl font-bold text-primary hover:text-secondary transition">facebook.com/company</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="mt-8">
-                        <a href="tel:+48661017021" class="w-full bg-secondary hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition duration-300 shadow-lg text-center inline-block">
+                        <a href="tel:{{ (config).CompanyPhone }}" class="w-full bg-secondary hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition duration-300 shadow-lg text-center inline-block">
                             Zadzwoń teraz
                         </a>
                     </div>
@@ -76,22 +76,22 @@
             <h2 class="text-2xl font-bold text-primary mb-6 border-b pb-4">Dane rejestrowe</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 text-lg">
                 <div class="font-semibold text-gray-600">Nazwa spółki:</div>
-                <div class="text-primary font-bold">BIOMIX POLAND sp. z o. o.</div>
+                <div class="text-primary font-bold">{{ (config).SiteName }}</div>
 
                 <div class="font-semibold text-gray-600">Adres siedziby:</div>
-                <div class="text-primary">UL. KARPIA 25/97, 61-619 POZNAŃ</div>
+                <div class="text-primary">{{ (config).CompanyAddress }}</div>
 
                 <div class="font-semibold text-gray-600">KRS:</div>
-                <div class="text-primary">0000848514 <span class="block text-sm font-normal text-gray-500 mt-1">SĄD REJONOWY POZNAŃ - NOWE MIASTO I WILDA W POZNANIU, VIII WYDZIAŁ GOSPODARCZY KRAJOWEGO REJESTRU SĄDOWEGO</span></div>
+                <div class="text-primary">{{ (config).CompanyKRS }}</div>
 
                 <div class="font-semibold text-gray-600">NIP:</div>
-                <div class="text-primary">9721309258</div>
+                <div class="text-primary">{{ (config).CompanyNIP }}</div>
 
                 <div class="font-semibold text-gray-600">REGON:</div>
-                <div class="text-primary">386434535</div>
+                <div class="text-primary">{{ (config).CompanyREGON }}</div>
 
                 <div class="font-semibold text-gray-600">Kapitał zakładowy:</div>
-                <div class="text-primary">10 000 zł</div>
+                <div class="text-primary">{{ (config).CompanyCapital }}</div>
             </div>
         </div>
 
